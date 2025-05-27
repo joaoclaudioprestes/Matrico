@@ -1,4 +1,4 @@
-package com.jprestes.demo;
+package com.jprestes;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
