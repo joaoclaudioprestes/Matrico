@@ -1,17 +1,10 @@
 package com.jprestes.controller;
 
+import com.jprestes.annotations.CourseApiResponses;
 import com.jprestes.domain.dtos.CourseDTO;
-import com.jprestes.domain.dtos.ErrorResponseDTO;
 import com.jprestes.domain.entity.Course;
-import com.jprestes.exceptions.CourseValidationException;
-import com.jprestes.exceptions.ErrorResponseException;
 import com.jprestes.service.CourseService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,34 +18,18 @@ public class CourseController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Cria um curso.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Curso criado com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CourseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Erro de validação. Nome e descrição do curso são obrigatórios.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDTO.class))),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponseDTO.class)))
-    })
-    public Course createCourse(@RequestBody CourseDTO course) {
-
-        if (course.getName() == null || course.getName().trim().isEmpty() ||
-                course.getDescription() == null || course.getDescription().trim().isEmpty()) {
-            throw new CourseValidationException("Nome e descrição do curso são obrigatórios.");
-        }
-
+    @CourseApiResponses
+    public ResponseEntity<String> createCourse(@RequestBody CourseDTO courseDTO) {
         Course courseEntity = new Course();
-        courseEntity.setName(course.getName());
-        courseEntity.setDescription(course.getDescription());
+        courseEntity.setName(courseDTO.getName());
+        courseEntity.setDescription(courseDTO.getDescription());
 
-        try {
-            return courseService.createCourse(courseEntity);
-        } catch (Exception e) {
-            throw new ErrorResponseException("Erro ao criar curso: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Course createdCourse = courseService.createCourse(courseEntity);
+
+        CourseDTO createdCourseDTO = new CourseDTO();
+        createdCourseDTO.setName(createdCourse.getName());
+        createdCourseDTO.setDescription(createdCourse.getDescription());
+
+        return ResponseEntity.status(201).body("Curso criado com sucesso: " + createdCourseDTO.getName());
     }
 }
