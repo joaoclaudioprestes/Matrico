@@ -47,7 +47,7 @@ O projeto é organizado em camadas para garantir separação de responsabilidade
 
 ## 🚀 Funcionalidades
 
-- [ ] Cadastro, edição e exclusão de **Cursos**
+- [X] Cadastro, edição e exclusão de **Cursos**
 - [ ] Cadastro, edição e exclusão de **Alunos**
 - [ ] Realização de **Matrícula** entre aluno e curso
 - [ ] Consulta de cursos com seus respectivos alunos
@@ -58,17 +58,25 @@ O projeto é organizado em camadas para garantir separação de responsabilidade
 
 ---
 
-## 📡 Rotas Exemplares (Spring REST)
+## 📡 Rotas (Spring REST)
 
-| Método | Rota                      | Descrição                          |
-|--------|---------------------------|-------------------------------------|
-| GET    | `/cursos`                 | Listar todos os cursos              |
-| POST   | `/cursos`                 | Cadastrar novo curso                |
-| GET    | `/alunos`                 | Listar todos os alunos              |
-| POST   | `/alunos`                 | Cadastrar novo aluno                |
-| POST   | `/matriculas`            | Realizar matrícula                  |
-| GET    | `/cursos/{id}/alunos`    | Alunos matriculados no curso       |
-| GET    | `/alunos/{id}/cursos`    | Cursos que o aluno está matriculado|
+| Método | Rota                     | Descrição                                     |
+| ------ | ------------------------ | --------------------------------------------- |
+| POST   | `/cursos`                | Cadastrar novo curso                          |
+| PUT    | `/cursos/{id}`           | Editar curso                                  |
+| DELETE | `/cursos/{id}`           | Excluir curso                                 |
+| GET    | `/cursos`                | Listar todos os cursos                        |
+| GET    | `/cursos?nome=&status=`  | Filtrar cursos por nome ou status             |
+| GET    | `/cursos/{id}/alunos`    | Listar alunos matriculados no curso           |
+| GET    | `/cursos/{id}/relatorio` | Relatório simples do curso (JSON)             |
+| POST   | `/alunos`                | Cadastrar novo aluno                          |
+| PUT    | `/alunos/{id}`           | Editar aluno                                  |
+| DELETE | `/alunos/{id}`           | Excluir aluno                                 |
+| GET    | `/alunos`                | Listar todos os alunos                        |
+| GET    | `/alunos/{id}/cursos`    | Listar cursos em que o aluno está matriculado |
+| GET    | `/alunos/{id}/relatorio` | Relatório simples do aluno (JSON)             |
+| POST   | `/matriculas`            | Realizar matrícula (vincular aluno e curso)   |
+| DELETE | `/matriculas/{id}`       | Cancelar matrícula                            |
 
 ---
 

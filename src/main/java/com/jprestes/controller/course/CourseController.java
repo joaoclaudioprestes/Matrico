@@ -4,8 +4,6 @@ import com.jprestes.domain.dto.ApiResponseDTO;
 import com.jprestes.domain.dto.CourseDTO;
 import com.jprestes.domain.entity.Course;
 import com.jprestes.service.CourseService;
-import com.jprestes.validation.annotations.ValidCourseCreate;
-import com.jprestes.validation.annotations.ValidCourseUpdate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,6 @@ public class CourseController {
     }
 
     @PostMapping
-    @ValidCourseCreate
     public ResponseEntity<ApiResponseDTO<CourseDTO>> createCourse(@RequestBody CourseDTO courseDTO) {
         Course courseEntity = new Course();
         courseEntity.setName(courseDTO.getName());
@@ -37,7 +34,6 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    @ValidCourseUpdate
     public ResponseEntity<ApiResponseDTO<CourseDTO>> updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {
         Course courseEntity = new Course();
         courseEntity.setId(id);
