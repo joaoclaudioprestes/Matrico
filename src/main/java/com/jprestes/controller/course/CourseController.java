@@ -7,7 +7,9 @@ import com.jprestes.service.CourseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cursos")
@@ -20,56 +22,54 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList<CourseDTO>> findAll() {
-        ArrayList<Course> courses = courseService.getAllCourses();
-        ArrayList<CourseDTO> courseDTOs = new ArrayList<>();
-
-        for (Course course : courses) {
-            CourseDTO dto = new CourseDTO();
-            dto.setName(course.getName());
-            dto.setDescription(course.getDescription());
-            courseDTOs.add(dto);
-        }
+    public ResponseEntity<List<CourseDTO>> findAll() {
+        List<CourseDTO> courseDTOs = courseService.getAllCourses().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(courseDTOs);
     }
 
     @PostMapping
     public ResponseEntity<ApiResponseDTO<CourseDTO>> createCourse(@RequestBody CourseDTO courseDTO) {
-        Course courseEntity = new Course();
-        courseEntity.setName(courseDTO.getName());
-        courseEntity.setDescription(courseDTO.getDescription());
+        Course created = courseService.createCourse(toEntity(courseDTO));
+        CourseDTO createdDTO = toDTO(created);
 
-        Course createdCourse = courseService.createCourse(courseEntity);
-
-        CourseDTO createdCourseDTO = new CourseDTO();
-        createdCourseDTO.setName(createdCourse.getName());
-        createdCourseDTO.setDescription(createdCourse.getDescription());
-
-        ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso criado com sucesso", createdCourseDTO);
-        return ResponseEntity.status(201).body(response);
+        ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso criado com sucesso", createdDTO);
+        return ResponseEntity.created(URI.create("/cursos/" + createdDTO.getId())).body(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<CourseDTO>> updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {
-        Course courseEntity = new Course();
-        courseEntity.setId(id);
-        courseEntity.setName(courseDTO.getName());
-        courseEntity.setDescription(courseDTO.getDescription());
+        Course entity = toEntity(courseDTO);
+        entity.setId(id);
 
-        Course updatedCourse = courseService.updateCourse(courseEntity);
+        Course updated = courseService.updateCourse(entity);
+        CourseDTO updatedDTO = toDTO(updated);
 
-        CourseDTO updatedCourseDTO = new CourseDTO();
-        updatedCourseDTO.setName(updatedCourse.getName());
-        updatedCourseDTO.setDescription(updatedCourse.getDescription());
-
-        ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso atualizado com sucesso", updatedCourseDTO);
+        ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso atualizado com sucesso", updatedDTO);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseDTO<Void>> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
-        return ResponseEntity.ok("Curso deletado com sucesso");
+        return ResponseEntity.ok(new ApiResponseDTO<>(true, "Curso deletado com sucesso", null));
+    }
+
+    // Métodos auxiliares
+    private CourseDTO toDTO(Course course) {
+        CourseDTO dto = new CourseDTO();
+        dto.setId(course.getId());
+        dto.setName(course.getName());
+        dto.setDescription(course.getDescription());
+        return dto;
+    }
+
+    private Course toEntity(CourseDTO dto) {
+        Course entity = new Course();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        return entity;
     }
 }

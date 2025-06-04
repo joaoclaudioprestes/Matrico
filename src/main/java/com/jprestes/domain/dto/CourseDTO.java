@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(name = "Course", description = "Estrutura de dados para o curso")
 public class CourseDTO {
+    private Long id;
     private String name;
     private String description;
 }

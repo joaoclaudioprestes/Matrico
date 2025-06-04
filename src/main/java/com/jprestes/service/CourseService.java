@@ -7,22 +7,19 @@ import com.jprestes.exceptions.InvalidCourseException;
 import com.jprestes.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CourseService {
+
     private final CourseRepository courseRepository;
 
-    private CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 
     public Course createCourse(Course course) {
-        if (course.getName() == null || course.getName().trim().isEmpty() ||
-                course.getDescription() == null || course.getDescription().trim().isEmpty()) {
-            throw new InvalidCourseException("Nome e descrição do curso são obrigatórios.");
-        }
-
+        validateCourse(course);
         return courseRepository.save(course);
     }
 
@@ -35,16 +32,12 @@ public class CourseService {
             throw new CourseNotFoundException("Curso com ID: " + course.getId() + " não encontrado.");
         }
 
-        if (course.getName() == null || course.getName().trim().isEmpty() ||
-                course.getDescription() == null || course.getDescription().trim().isEmpty()) {
-            throw new InvalidCourseException("Nome e descrição do curso são obrigatórios.");
-        }
-
+        validateCourse(course);
         return courseRepository.save(course);
     }
 
-    public ArrayList<Course> getAllCourses() {
-        return (ArrayList<Course>) courseRepository.findAll();
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 
     public void deleteCourse(Long id) {
@@ -56,5 +49,12 @@ public class CourseService {
                 .orElseThrow(() -> new CourseNotFoundException("Curso com ID: " + id + " não encontrado."));
 
         courseRepository.delete(course);
+    }
+
+    private void validateCourse(Course course) {
+        if (course.getName() == null || course.getName().trim().isEmpty() ||
+                course.getDescription() == null || course.getDescription().trim().isEmpty()) {
+            throw new InvalidCourseException("Nome e descrição do curso são obrigatórios.");
+        }
     }
 }
