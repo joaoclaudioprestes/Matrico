@@ -21,7 +21,12 @@
 
 O projeto é organizado em camadas para garantir separação de responsabilidades e fácil manutenção:
 ```bash
+📁 advice
 📁 controller
+├── course
+├── student
+└── registration
+📁 exception
 📁 service
 📁 repository
 📁 domain

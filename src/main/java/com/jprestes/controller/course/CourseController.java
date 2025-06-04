@@ -7,6 +7,8 @@ import com.jprestes.service.CourseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/cursos")
 public class CourseController {
@@ -15,6 +17,21 @@ public class CourseController {
 
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
+    }
+
+    @GetMapping
+    public ResponseEntity<ArrayList<CourseDTO>> findAll() {
+        ArrayList<Course> courses = courseService.getAllCourses();
+        ArrayList<CourseDTO> courseDTOs = new ArrayList<>();
+
+        for (Course course : courses) {
+            CourseDTO dto = new CourseDTO();
+            dto.setName(course.getName());
+            dto.setDescription(course.getDescription());
+            courseDTOs.add(dto);
+        }
+
+        return ResponseEntity.ok(courseDTOs);
     }
 
     @PostMapping
@@ -48,5 +65,11 @@ public class CourseController {
 
         ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso atualizado com sucesso", updatedCourseDTO);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
+        courseService.deleteCourse(id);
+        return ResponseEntity.ok("Curso deletado com sucesso");
     }
 }

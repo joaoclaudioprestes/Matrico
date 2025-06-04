@@ -46,4 +46,15 @@ public class CourseService {
     public ArrayList<Course> getAllCourses() {
         return (ArrayList<Course>) courseRepository.findAll();
     }
+
+    public void deleteCourse(Long id) {
+        if (id == null) {
+            throw new MissingCourseIdException("O ID do curso é obrigatório para exclusão.");
+        }
+
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException("Curso com ID: " + id + " não encontrado."));
+
+        courseRepository.delete(course);
+    }
 }
