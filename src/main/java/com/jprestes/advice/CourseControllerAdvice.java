@@ -1,9 +1,9 @@
 package com.jprestes.advice;
 
 import com.jprestes.domain.dto.ApiErrorDTO;
-import com.jprestes.exceptions.MissingCourseIdException;
-import com.jprestes.exceptions.CourseNotFoundException;
-import com.jprestes.exceptions.InvalidCourseException;
+import com.jprestes.exceptions.course.MissingCourseIdException;
+import com.jprestes.exceptions.course.CourseNotFoundException;
+import com.jprestes.exceptions.course.InvalidCourseException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
