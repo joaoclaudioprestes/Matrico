@@ -1,8 +1,8 @@
 package com.jprestes.service;
 
 import com.jprestes.domain.entity.Student;
-import com.jprestes.exceptions.MissingStudentIdException;
-import com.jprestes.exceptions.StudentNotFoundException;
+import com.jprestes.exceptions.student.MissingStudentIdException;
+import com.jprestes.exceptions.student.StudentNotFoundException;
 import com.jprestes.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 
