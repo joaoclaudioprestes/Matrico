@@ -1,4 +1,4 @@
-package com.jprestes.validation.annotations;
+package com.jprestes.validation.annotations.course;
 
 import com.jprestes.domain.dto.ApiErrorDTO;
 import com.jprestes.domain.dto.course.CourseDTO;
