@@ -6,6 +6,11 @@ import com.jprestes.domain.dto.course.CourseDTO;
 import com.jprestes.domain.dto.course.CourseUpdateDTO;
 import com.jprestes.domain.entity.Course;
 import com.jprestes.service.CourseService;
+import com.jprestes.validation.annotations.course.ValidCourseCreate;
+import com.jprestes.validation.annotations.course.ValidCourseDelete;
+import com.jprestes.validation.annotations.course.ValidCourseList;
+import com.jprestes.validation.annotations.course.ValidCourseUpdate;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +31,8 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @ValidCourseList
+    @Operation(summary = "Buscar todos os cursos ou filtrar por nome")
     @GetMapping
     public ResponseEntity<?> findAllOrFilterByName(@RequestParam(value = "nome", required = false) String nome) {
 
@@ -37,6 +44,8 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
+    @ValidCourseCreate
+    @Operation(summary = "Criar um novo curso")
     @PostMapping
     public ResponseEntity<ApiResponseDTO<CourseDTO>> createCourse(@Valid @RequestBody CourseCreateDTO createDTO) {
 
@@ -47,6 +56,8 @@ public class CourseController {
         return ResponseEntity.created(URI.create("/cursos/" + createdDTO.getId())).body(response);
     }
 
+    @ValidCourseUpdate
+    @Operation(summary = "Atualizar um curso existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<CourseDTO>> updateCourse(@PathVariable Long id, @Valid @RequestBody CourseUpdateDTO updateDTO) {
 
@@ -60,6 +71,8 @@ public class CourseController {
         return ResponseEntity.ok(response);
     }
 
+    @ValidCourseDelete
+    @Operation(summary = "Deletar um curso existente")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<Void>> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
