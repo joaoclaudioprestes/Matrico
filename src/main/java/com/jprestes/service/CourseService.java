@@ -1,9 +1,9 @@
 package com.jprestes.service;
 
 import com.jprestes.domain.entity.Course;
-import com.jprestes.exceptions.MissingCourseIdException;
-import com.jprestes.exceptions.CourseNotFoundException;
-import com.jprestes.exceptions.InvalidCourseException;
+import com.jprestes.exceptions.course.MissingCourseIdException;
+import com.jprestes.exceptions.course.CourseNotFoundException;
+import com.jprestes.exceptions.course.InvalidCourseException;
 import com.jprestes.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
 
