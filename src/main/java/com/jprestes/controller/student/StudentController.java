@@ -6,6 +6,11 @@ import com.jprestes.domain.dto.student.StudentDTO;
 import com.jprestes.domain.dto.student.StudentUpdateDTO;
 import com.jprestes.domain.entity.Student;
 import com.jprestes.service.StudentService;
+import com.jprestes.validation.annotations.student.ValidStudentCreate;
+import com.jprestes.validation.annotations.student.ValidStudentDelete;
+import com.jprestes.validation.annotations.student.ValidStudentList;
+import com.jprestes.validation.annotations.student.ValidStudentUpdate;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +31,8 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @ValidStudentList
+    @Operation(summary = "Listar todos os alunos")
     @GetMapping
     public ResponseEntity<List<StudentDTO>> findAll() {
         List<StudentDTO> studentDTOs = studentService.getAllStudents().stream().map(this::toDTO).collect(Collectors.toList());
@@ -33,6 +40,8 @@ public class StudentController {
         return ResponseEntity.ok(studentDTOs);
     }
 
+    @ValidStudentCreate
+    @Operation(summary = "Criar um novo aluno")
     @PostMapping
     public ResponseEntity<ApiResponseDTO<StudentDTO>> createStudent(@Valid @RequestBody StudentCreateDTO createDTO) {
         Student created = studentService.createStudent(toEntity(createDTO));
@@ -42,6 +51,8 @@ public class StudentController {
         return ResponseEntity.created(URI.create("/alunos/" + createdDTO.getId())).body(response);
     }
 
+    @ValidStudentUpdate
+    @Operation(summary = "Atualizar um aluno existente")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<StudentDTO>> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentUpdateDTO updateDTO) {
         Student updated = studentService.updateStudent(toEntity(updateDTO));
@@ -51,6 +62,8 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
+    @ValidStudentDelete
+    @Operation(summary = "Deletar um aluno existente")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<Void>> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
