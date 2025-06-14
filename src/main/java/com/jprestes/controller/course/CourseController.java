@@ -1,10 +1,13 @@
 package com.jprestes.controller.course;
 
 import com.jprestes.domain.dto.ApiResponseDTO;
+import com.jprestes.domain.dto.CourseCreateDTO;
 import com.jprestes.domain.dto.CourseDTO;
+import com.jprestes.domain.dto.CourseUpdateDTO;
 import com.jprestes.domain.entity.Course;
 import com.jprestes.service.CourseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,17 +27,24 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseDTO>> findAll() {
-        List<CourseDTO> courseDTOs = courseService.getAllCourses().stream()
+    public ResponseEntity<?> findAllOrFilterByName(@RequestParam(value = "nome", required = false) String nome) {
+
+        List<CourseDTO> courses = courseService.getAllCourses().stream()
+                .filter(course -> nome == null ||
+                        (course.getName() != null && course.getName().toLowerCase().contains(nome.toLowerCase())))
                 .map(this::toDTO)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(courseDTOs);
+        if (nome != null) {
+            return ResponseEntity.ok(new ApiResponseDTO<>(true, "Cursos filtrados com sucesso", courses));
+        }
+        return ResponseEntity.ok(courses);
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponseDTO<CourseDTO>> createCourse(@RequestBody CourseDTO courseDTO) {
-        Course created = courseService.createCourse(toEntity(courseDTO));
+    public ResponseEntity<ApiResponseDTO<CourseDTO>> createCourse(@Valid @RequestBody CourseCreateDTO createDTO) {
+
+        Course created = courseService.createCourse(toEntity(createDTO));
         CourseDTO createdDTO = toDTO(created);
 
         ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso criado com sucesso", createdDTO);
@@ -42,12 +52,13 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO<CourseDTO>> updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {
-        Course entity = toEntity(courseDTO);
-        entity.setId(id);
+    public ResponseEntity<ApiResponseDTO<CourseDTO>> updateCourse(@PathVariable Long id, @Valid @RequestBody CourseUpdateDTO updateDTO) {
 
-        Course updated = courseService.updateCourse(entity);
-        CourseDTO updatedDTO = toDTO(updated);
+        Course courseToUpdate = toEntity(updateDTO);
+        courseToUpdate.setId(id);
+
+        Course updatedCourse = courseService.updateCourse(courseToUpdate);
+        CourseDTO updatedDTO = toDTO(updatedCourse);
 
         ApiResponseDTO<CourseDTO> response = new ApiResponseDTO<>(true, "Curso atualizado com sucesso", updatedDTO);
         return ResponseEntity.ok(response);
@@ -59,22 +70,7 @@ public class CourseController {
         return ResponseEntity.ok(new ApiResponseDTO<>(true, "Curso deletado com sucesso", null));
     }
 
-    @GetMapping("/filtrar")
-    public ResponseEntity<?> findAllOrFilterByName(@RequestParam(value = "nome", required = false) String nome) {
-        List<CourseDTO> courses = courseService.getAllCourses().stream()
-                .filter(course -> nome == null ||
-                        (course.getName() != null && course.getName().toLowerCase().contains(nome.toLowerCase())))
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-
-        if (nome != null) {
-            return ResponseEntity.ok(new ApiResponseDTO<>(true, "Cursos filtrados com sucesso", courses));
-        }
-
-        return ResponseEntity.ok(courses);
-    }
-
-    // Métodos auxiliares
+    // --- Métodos auxiliares ---
     private CourseDTO toDTO(Course course) {
         CourseDTO dto = new CourseDTO();
         dto.setId(course.getId());
@@ -83,7 +79,15 @@ public class CourseController {
         return dto;
     }
 
-    private Course toEntity(CourseDTO dto) {
+    // Sobrecarga para diferentes DTOs
+    private Course toEntity(CourseCreateDTO dto) {
+        Course entity = new Course();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        return entity;
+    }
+
+    private Course toEntity(CourseUpdateDTO dto) {
         Course entity = new Course();
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
