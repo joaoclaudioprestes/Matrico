@@ -4,6 +4,7 @@ import com.jprestes.domain.dto.ApiResponseDTO;
 import com.jprestes.domain.dto.CourseDTO;
 import com.jprestes.domain.entity.Course;
 import com.jprestes.service.CourseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Cursos", description = "Operações com cursos")
 @RestController
 @RequestMapping("/cursos")
 public class CourseController {
@@ -55,6 +57,21 @@ public class CourseController {
     public ResponseEntity<ApiResponseDTO<Void>> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
         return ResponseEntity.ok(new ApiResponseDTO<>(true, "Curso deletado com sucesso", null));
+    }
+
+    @GetMapping("/filtrar")
+    public ResponseEntity<?> findAllOrFilterByName(@RequestParam(value = "nome", required = false) String nome) {
+        List<CourseDTO> courses = courseService.getAllCourses().stream()
+                .filter(course -> nome == null ||
+                        (course.getName() != null && course.getName().toLowerCase().contains(nome.toLowerCase())))
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+
+        if (nome != null) {
+            return ResponseEntity.ok(new ApiResponseDTO<>(true, "Cursos filtrados com sucesso", courses));
+        }
+
+        return ResponseEntity.ok(courses);
     }
 
     // Métodos auxiliares
