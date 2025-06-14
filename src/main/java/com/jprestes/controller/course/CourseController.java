@@ -1,9 +1,9 @@
 package com.jprestes.controller.course;
 
 import com.jprestes.domain.dto.ApiResponseDTO;
-import com.jprestes.domain.dto.CourseCreateDTO;
-import com.jprestes.domain.dto.CourseDTO;
-import com.jprestes.domain.dto.CourseUpdateDTO;
+import com.jprestes.domain.dto.course.CourseCreateDTO;
+import com.jprestes.domain.dto.course.CourseDTO;
+import com.jprestes.domain.dto.course.CourseUpdateDTO;
 import com.jprestes.domain.entity.Course;
 import com.jprestes.service.CourseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,11 +29,7 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<?> findAllOrFilterByName(@RequestParam(value = "nome", required = false) String nome) {
 
-        List<CourseDTO> courses = courseService.getAllCourses().stream()
-                .filter(course -> nome == null ||
-                        (course.getName() != null && course.getName().toLowerCase().contains(nome.toLowerCase())))
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        List<CourseDTO> courses = courseService.getAllCourses().stream().filter(course -> nome == null || (course.getName() != null && course.getName().toLowerCase().contains(nome.toLowerCase()))).map(this::toDTO).collect(Collectors.toList());
 
         if (nome != null) {
             return ResponseEntity.ok(new ApiResponseDTO<>(true, "Cursos filtrados com sucesso", courses));

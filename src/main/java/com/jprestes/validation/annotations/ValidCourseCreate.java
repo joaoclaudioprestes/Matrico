@@ -1,7 +1,7 @@
 package com.jprestes.validation.annotations;
 
 import com.jprestes.domain.dto.ApiErrorDTO;
-import com.jprestes.domain.dto.CourseDTO;
+import com.jprestes.domain.dto.course.CourseDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.lang.annotation.*;

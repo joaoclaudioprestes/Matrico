@@ -1,4 +1,4 @@
-package com.jprestes.domain.dto;
+package com.jprestes.domain.dto.course;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
