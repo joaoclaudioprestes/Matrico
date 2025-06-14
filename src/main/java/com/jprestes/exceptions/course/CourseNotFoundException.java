@@ -1,4 +1,4 @@
-package com.jprestes.exceptions;
+package com.jprestes.exceptions.course;
 
 public class CourseNotFoundException extends RuntimeException {
     public CourseNotFoundException(String message) {
