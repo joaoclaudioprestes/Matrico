@@ -45,7 +45,7 @@ public class RegistrationService {
     }
 
     public Registration deleteRegistration(Long dto) {
-        Registration registration = registrationRepository.findById(dto.getCourseId()).orElseThrow(() -> new RegistrationNotFoundException("Matricula não encontrada!"));
+        Registration registration = registrationRepository.findById(dto).orElseThrow(() -> new RegistrationNotFoundException("Matricula não encontrada!"));
 
         registrationRepository.delete(registration);
 
