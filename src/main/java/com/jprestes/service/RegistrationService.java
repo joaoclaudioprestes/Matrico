@@ -6,6 +6,7 @@ import com.jprestes.domain.entity.Registration;
 import com.jprestes.domain.entity.Student;
 import com.jprestes.exceptions.course.CourseNotFoundException;
 import com.jprestes.exceptions.registration.InvalidRegistrationException;
+import com.jprestes.exceptions.registration.RegistrationNotFoundException;
 import com.jprestes.exceptions.student.StudentNotFoundException;
 import com.jprestes.repositories.CourseRepository;
 import com.jprestes.repositories.RegistrationRepository;
@@ -42,6 +43,15 @@ public class RegistrationService {
 
         return registrationRepository.save(registration);
     }
+
+    public Registration deleteRegistration(Long dto) {
+        Registration registration = registrationRepository.findById(dto.getCourseId()).orElseThrow(() -> new RegistrationNotFoundException("Matricula não encontrada!"));
+
+        registrationRepository.delete(registration);
+
+        return registration;
+    }
+
 
     private void validateRegistration(Registration registration) {
         if (registration.getStudent() == null || registration.getCourse() == null) {

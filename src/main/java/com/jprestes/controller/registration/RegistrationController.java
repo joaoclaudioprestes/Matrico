@@ -2,6 +2,7 @@ package com.jprestes.controller.registration;
 
 import com.jprestes.domain.dto.ApiResponseDTO;
 import com.jprestes.domain.dto.registration.RegistrationCreateDTO;
+import com.jprestes.domain.dto.registration.RegistrationDeleteDTO;
 import com.jprestes.domain.entity.Registration;
 import com.jprestes.service.RegistrationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,5 +31,12 @@ public class RegistrationController {
         ApiResponseDTO<RegistrationCreateDTO> response = new ApiResponseDTO<>(true, "Matrícula criada com sucesso", createDTO);
 
         return ResponseEntity.created(URI.create("/matriculas/" + registration.getId())).body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponseDTO<RegistrationDeleteDTO>> deleteRegistration(@Valid @RequestBody RegistrationDeleteDTO deleteDTO) {
+        registrationService.deleteRegistration(deleteDTO.getCourseId());
+
+        return ResponseEntity.noContent().build();
     }
 }
