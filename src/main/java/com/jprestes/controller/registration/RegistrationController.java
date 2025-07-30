@@ -34,8 +34,8 @@ public class RegistrationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponseDTO<RegistrationDeleteDTO>> deleteRegistration(@Valid @RequestBody RegistrationDeleteDTO deleteDTO) {
-        registrationService.deleteRegistration(deleteDTO.getCourseId());
+    public ResponseEntity<ApiResponseDTO<RegistrationDeleteDTO>> deleteRegistration(@PathVariable Long id) {
+        registrationService.deleteRegistration(id);
 
         return ResponseEntity.noContent().build();
     }
