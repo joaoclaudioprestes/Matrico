@@ -2,6 +2,7 @@ package com.jprestes.advice;
 
 import com.jprestes.domain.dto.ApiErrorDTO;
 import com.jprestes.exceptions.registration.InvalidRegistrationException;
+import com.jprestes.exceptions.registration.RegistrationNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,11 @@ public class RegistrationControllerAdvice {
     public ResponseEntity<ApiErrorDTO> handleValidationException(InvalidRegistrationException exception, HttpServletRequest request) {
         ApiErrorDTO error = new ApiErrorDTO(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(RegistrationNotFoundException.class)
+    public ResponseEntity<ApiErrorDTO> handleNotFoundException(RegistrationNotFoundException exception, HttpServletRequest request) {
+        ApiErrorDTO error = new ApiErrorDTO(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

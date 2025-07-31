@@ -5,6 +5,9 @@ import com.jprestes.domain.dto.registration.RegistrationCreateDTO;
 import com.jprestes.domain.dto.registration.RegistrationDeleteDTO;
 import com.jprestes.domain.entity.Registration;
 import com.jprestes.service.RegistrationService;
+import com.jprestes.validation.annotations.registration.ValidRegistrationCreate;
+import com.jprestes.validation.annotations.registration.ValidRegistrationDelete;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    @ValidRegistrationCreate
+    @Operation(summary = "Criar uma nova matrícula")
     @PostMapping
     public ResponseEntity<ApiResponseDTO<RegistrationCreateDTO>> createRegistration(@Valid @RequestBody RegistrationCreateDTO createDTO) {
 
@@ -33,6 +38,8 @@ public class RegistrationController {
         return ResponseEntity.created(URI.create("/matriculas/" + registration.getId())).body(response);
     }
 
+    @ValidRegistrationDelete
+    @Operation(summary="Deletar uma matrícula existente")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseDTO<RegistrationDeleteDTO>> deleteRegistration(@PathVariable Long id) {
         registrationService.deleteRegistration(id);
