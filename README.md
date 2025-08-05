@@ -1,26 +1,27 @@
 # 🎓 Matrico
 
-**Matrico** é um sistema simples e modular de **gestão de cursos**, desenvolvido com foco em boas práticas de programação orientada a objetos (POO), princípios SOLID e arquitetura em camadas.
+**Matrico** é um sistema modular de **gestão de cursos**, desenvolvido com foco em **boas práticas de POO**, princípios **SOLID** e **arquitetura em camadas**.
 
-> 📌 Ideal para demonstrar domínio técnico em projetos reais com **Java 17+, Spring Boot** e **PostgreSQL**.
-
----
-
-## 🧩 Tecnologias Utilizadas
-
-- Java 17+
-- Spring Boot
-- Spring MVC
-- Spring Data JPA
-- Lombok
-- PostgreSQL
+> 📌 Projeto ideal para demonstrar domínio técnico com **Java 17+, Spring Boot** e **PostgreSQL**.
 
 ---
 
-## 🧱 Arquitetura do Projeto
+## 🧩 Tecnologias
 
-O projeto é organizado em camadas para garantir separação de responsabilidades e fácil manutenção:
-```bash
+* Java 17+
+* Spring Boot
+* Spring MVC
+* Spring Data JPA
+* Lombok
+* PostgreSQL
+
+---
+
+## 📐 Estrutura do Projeto
+
+Organização em camadas, garantindo clareza, separação de responsabilidades e fácil manutenção:
+
+```
 📁 advice
 📁 controller
 ├── course
@@ -34,81 +35,76 @@ O projeto é organizado em camadas para garantir separação de responsabilidade
 └── dto
 ```
 
-
 ---
 
-## 🧑‍🏫 Entidades Principais
+## 📚 Entidades
 
-- **Curso**
-- **Aluno**
-- **Matrícula**
+* **Curso**
+* **Aluno**
+* **Matrícula**
 
 ### 🔗 Relacionamentos
-- Um **Curso** possui vários **Alunos** (OneToMany).
-- Um **Aluno** pode estar matriculado em vários **Cursos** (ManyToMany).
-- A **Matrícula** representa o vínculo entre **Aluno** e **Curso**, com data e status.
+
+* Um **Curso** possui vários **Alunos** (`@OneToMany`)
+* Um **Aluno** pode se matricular em vários **Cursos** (`@ManyToMany`)
+* A **Matrícula** representa o vínculo entre Aluno e Curso, com data e status
 
 ---
 
 ## 🚀 Funcionalidades
 
-- [X] Cadastro, edição e exclusão de **Cursos**
-- [X] Cadastro, edição e exclusão de **Alunos**
-- [X] Realização de **Matrícula** entre aluno e curso
-- [X] Consulta de cursos com seus respectivos alunos
-- [X] Consulta de alunos matriculados em um curso
-- [ ] Consulta de cursos em que um aluno está matriculado
-- [ ] Filtro de cursos por nome ou status
-- [ ] Relatórios simples via JSON
+* [x] Cadastro, edição e exclusão de cursos
+* [x] Cadastro, edição e exclusão de alunos
+* [x] Matrícula entre aluno e curso
+* [x] Consulta de cursos com seus respectivos alunos
+* [x] Consulta de alunos com seus cursos matriculados
 
 ---
 
-## 📡 Rotas (Spring REST)
+## 📡 API REST
 
-| Método | Rota                     | Descrição                                     | Concluído |
-| ------ | ------------------------ | --------------------------------------------- |----------|
-| POST   | `/cursos`                | Cadastrar novo curso                          |     ✅    |
-| PUT    | `/cursos/{id}`           | Editar curso                                  |      ✅   |
-| DELETE | `/cursos/{id}`           | Excluir curso                                 |    ✅      |
-| GET    | `/cursos`                | Listar todos os cursos                        |     ✅     |
-| GET    | `/cursos?nome=&status=`  | Filtrar cursos por nome ou status             |     ✅     |
-| GET    | `/cursos/{id}/alunos`    | Listar alunos matriculados no curso           |    ✅      |
-| GET    | `/cursos/{id}/relatorio` | Relatório simples do curso (JSON)             |          |
-| POST   | `/alunos`                | Cadastrar novo aluno                          |          |
-| PUT    | `/alunos/{id}`           | Editar aluno                                  |          |
-| DELETE | `/alunos/{id}`           | Excluir aluno                                 |          |
-| GET    | `/alunos`                | Listar todos os alunos                        |          |
-| GET    | `/alunos/{id}/cursos`    | Listar cursos em que o aluno está matriculado |    ✅          |
-| GET    | `/alunos/{id}/relatorio` | Relatório simples do aluno (JSON)             |          |
-| POST   | `/matriculas`            | Realizar matrícula (vincular aluno e curso)   |     ✅         |
-| DELETE | `/matriculas/{id}`       | Cancelar matrícula                            |       ✅       |
+| Método | Endpoint                | Descrição                 |
+| ------ | ----------------------- | ------------------------- |
+| POST   | `/cursos`               | Cadastrar novo curso      |
+| PUT    | `/cursos/{id}`          | Editar curso              |
+| DELETE | `/cursos/{id}`          | Excluir curso             |
+| GET    | `/cursos`               | Listar todos os cursos    |
+| GET    | `/cursos?nome=&status=` | Filtrar cursos            |
+| GET    | `/cursos/{id}/alunos`   | Listar alunos do curso    |
+| POST   | `/alunos`               | Cadastrar novo aluno      |
+| PUT    | `/alunos/{id}`          | Editar aluno              |
+| DELETE | `/alunos/{id}`          | Excluir aluno             |
+| GET    | `/alunos`               | Listar todos os alunos    |
+| GET    | `/alunos/{id}/cursos`   | Listar cursos de um aluno |
+| POST   | `/matriculas`           | Realizar matrícula        |
+| DELETE | `/matriculas/{id}`      | Cancelar matrícula        |
 
 ---
 
-## 🧠 Conceitos Demonstrados
+## 🧠 Conceitos Aplicados
 
-- [X] Princípios **SOLID** aplicados
-- [X] Boas práticas de **POO**
-- [X] Uso de **DTOs** para segurança e desacoplamento
-- [X] Injeção de dependência com **Spring**
-- [X] **Repository pattern** com Spring Data JPA
-- [X] Camada **Service** para regras de negócio
-- [X] **CRUD** completo e funcional
-- [X] Uso de banco relacional com **PostgreSQL**
+* ✅ Princípios **SOLID**
+* ✅ Boas práticas de **POO**
+* ✅ Uso de **DTOs** para segurança e desacoplamento
+* ✅ Injeção de dependência com Spring
+* ✅ Padrão **Repository**
+* ✅ Camada **Service** para regras de negócio
+* ✅ CRUD completo
+* ✅ Banco relacional com PostgreSQL
 
 ---
 
-## 🛠️ Como rodar
+## 🛠️ Como Executar
 
 ```bash
 # Clone o repositório
 git clone https://github.com/seu-usuario/matrico.git
 
-# Acesse o diretório
+# Acesse a pasta do projeto
 cd matrico
 
-# Configure o banco PostgreSQL com o schema fornecido
+# Configure o PostgreSQL com o schema fornecido
 
-# Rode o projeto com sua IDE ou:
+# Execute o projeto via sua IDE ou terminal:
 ./mvnw spring-boot:run
 ```
