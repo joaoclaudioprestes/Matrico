@@ -1,12 +1,12 @@
 # 🎓 Matrico
 
-**Matrico** é um sistema modular de **gestão de cursos**, desenvolvido com foco em **boas práticas de POO**, princípios **SOLID** e **arquitetura em camadas**.
+**Matrico** é um sistema modular de **gestão de cursos**, desenvolvido com foco em **boas práticas de programação orientada a objetos (POO)**, princípios **SOLID** e **arquitetura em camadas**.
 
-> 📌 Projeto ideal para demonstrar domínio técnico com **Java 17+, Spring Boot** e **PostgreSQL**.
+> 📌 Projeto construído com **Java 17+, Spring Boot** e **PostgreSQL**, utilizando **Swagger** para documentação da API REST.
 
 ---
 
-## 🧩 Tecnologias
+## 🧩 Tecnologias Utilizadas
 
 * Java 17+
 * Spring Boot
@@ -14,25 +14,26 @@
 * Spring Data JPA
 * Lombok
 * PostgreSQL
+* Swagger/OpenAPI (springdoc)
 
 ---
 
 ## 📐 Estrutura do Projeto
 
-Organização em camadas, garantindo clareza, separação de responsabilidades e fácil manutenção:
+Organizado em múltiplas camadas, visando legibilidade, manutenção e separação de responsabilidades:
 
 ```
-📁 advice
-📁 controller
+📁 advice         # Manipulação global de exceções
+📁 controller     # Endpoints REST
 ├── course
 ├── student
 └── registration
-📁 exception
-📁 service
-📁 repository
+📁 exception      # Exceções customizadas
+📁 service        # Regras de negócio
+📁 repository     # Interface com o banco de dados
 📁 domain
-├── entity
-└── dto
+├── entity        # Entidades JPA
+└── dto           # Objetos de transferência de dados
 ```
 
 ---
@@ -46,15 +47,15 @@ Organização em camadas, garantindo clareza, separação de responsabilidades e
 ### 🔗 Relacionamentos
 
 * Um **Curso** possui vários **Alunos** (`@OneToMany`)
-* Um **Aluno** pode se matricular em vários **Cursos** (`@ManyToMany`)
-* A **Matrícula** representa o vínculo entre Aluno e Curso, com data e status
+* Um **Aluno** pode estar matriculado em vários **Cursos** (`@ManyToMany`)
+* A **Matrícula** representa o vínculo entre aluno e curso, com data e status
 
 ---
 
 ## 🚀 Funcionalidades
 
-* [x] Cadastro, edição e exclusão de cursos
-* [x] Cadastro, edição e exclusão de alunos
+* [x] CRUD completo para cursos
+* [x] CRUD completo para alunos
 * [x] Matrícula entre aluno e curso
 * [x] Consulta de cursos com seus respectivos alunos
 * [x] Consulta de alunos com seus cursos matriculados
@@ -81,29 +82,42 @@ Organização em camadas, garantindo clareza, separação de responsabilidades e
 
 ---
 
+## 📘 Documentação da API
+
+A documentação interativa da API REST é gerada automaticamente com o **Swagger (springdoc-openapi)**.
+
+Após iniciar o projeto, acesse:
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+---
+
 ## 🧠 Conceitos Aplicados
 
 * ✅ Princípios **SOLID**
 * ✅ Boas práticas de **POO**
-* ✅ Uso de **DTOs** para segurança e desacoplamento
-* ✅ Injeção de dependência com Spring
-* ✅ Padrão **Repository**
 * ✅ Camada **Service** para regras de negócio
-* ✅ CRUD completo
-* ✅ Banco relacional com PostgreSQL
+* ✅ Padrão **Repository** com Spring Data JPA
+* ✅ Uso de **DTOs** para segurança e encapsulamento
+* ✅ Injeção de dependência com Spring
+* ✅ Arquitetura em camadas
+* ✅ Integração com banco de dados relacional (PostgreSQL)
+* ✅ Documentação automática com Swagger
 
 ---
 
-## 🛠️ Como Executar
+## 🛠️ Como Executar o Projeto
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/matrico.git
+git clone https://github.com/joaoclaudioprestes/matrico.git
 
-# Acesse a pasta do projeto
+# Acesse o diretório do projeto
 cd matrico
 
-# Configure o PostgreSQL com o schema fornecido
+# Configure o PostgreSQL com o schema fornecido (application.properties)
 
 # Execute o projeto via sua IDE ou terminal:
 ./mvnw spring-boot:run
