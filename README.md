@@ -53,10 +53,10 @@ O projeto é organizado em camadas para garantir separação de responsabilidade
 ## 🚀 Funcionalidades
 
 - [X] Cadastro, edição e exclusão de **Cursos**
-- [ ] Cadastro, edição e exclusão de **Alunos**
-- [ ] Realização de **Matrícula** entre aluno e curso
-- [ ] Consulta de cursos com seus respectivos alunos
-- [ ] Consulta de alunos matriculados em um curso
+- [X] Cadastro, edição e exclusão de **Alunos**
+- [X] Realização de **Matrícula** entre aluno e curso
+- [X] Consulta de cursos com seus respectivos alunos
+- [X] Consulta de alunos matriculados em um curso
 - [ ] Consulta de cursos em que um aluno está matriculado
 - [ ] Filtro de cursos por nome ou status
 - [ ] Relatórios simples via JSON
@@ -65,36 +65,36 @@ O projeto é organizado em camadas para garantir separação de responsabilidade
 
 ## 📡 Rotas (Spring REST)
 
-| Método | Rota                     | Descrição                                     |
-| ------ | ------------------------ | --------------------------------------------- |
-| POST   | `/cursos`                | Cadastrar novo curso                          |
-| PUT    | `/cursos/{id}`           | Editar curso                                  |
-| DELETE | `/cursos/{id}`           | Excluir curso                                 |
-| GET    | `/cursos`                | Listar todos os cursos                        |
-| GET    | `/cursos?nome=&status=`  | Filtrar cursos por nome ou status             |
-| GET    | `/cursos/{id}/alunos`    | Listar alunos matriculados no curso           |
-| GET    | `/cursos/{id}/relatorio` | Relatório simples do curso (JSON)             |
-| POST   | `/alunos`                | Cadastrar novo aluno                          |
-| PUT    | `/alunos/{id}`           | Editar aluno                                  |
-| DELETE | `/alunos/{id}`           | Excluir aluno                                 |
-| GET    | `/alunos`                | Listar todos os alunos                        |
-| GET    | `/alunos/{id}/cursos`    | Listar cursos em que o aluno está matriculado |
-| GET    | `/alunos/{id}/relatorio` | Relatório simples do aluno (JSON)             |
-| POST   | `/matriculas`            | Realizar matrícula (vincular aluno e curso)   |
-| DELETE | `/matriculas/{id}`       | Cancelar matrícula                            |
+| Método | Rota                     | Descrição                                     | Concluído |
+| ------ | ------------------------ | --------------------------------------------- |----------|
+| POST   | `/cursos`                | Cadastrar novo curso                          |     ✅    |
+| PUT    | `/cursos/{id}`           | Editar curso                                  |      ✅   |
+| DELETE | `/cursos/{id}`           | Excluir curso                                 |    ✅      |
+| GET    | `/cursos`                | Listar todos os cursos                        |     ✅     |
+| GET    | `/cursos?nome=&status=`  | Filtrar cursos por nome ou status             |     ✅     |
+| GET    | `/cursos/{id}/alunos`    | Listar alunos matriculados no curso           |    ✅      |
+| GET    | `/cursos/{id}/relatorio` | Relatório simples do curso (JSON)             |          |
+| POST   | `/alunos`                | Cadastrar novo aluno                          |          |
+| PUT    | `/alunos/{id}`           | Editar aluno                                  |          |
+| DELETE | `/alunos/{id}`           | Excluir aluno                                 |          |
+| GET    | `/alunos`                | Listar todos os alunos                        |          |
+| GET    | `/alunos/{id}/cursos`    | Listar cursos em que o aluno está matriculado |    ✅          |
+| GET    | `/alunos/{id}/relatorio` | Relatório simples do aluno (JSON)             |          |
+| POST   | `/matriculas`            | Realizar matrícula (vincular aluno e curso)   |     ✅         |
+| DELETE | `/matriculas/{id}`       | Cancelar matrícula                            |       ✅       |
 
 ---
 
 ## 🧠 Conceitos Demonstrados
 
-- [ ] Princípios **SOLID** aplicados
-- [ ] Boas práticas de **POO**
-- [ ] Uso de **DTOs** para segurança e desacoplamento
-- [ ] Injeção de dependência com **Spring**
-- [ ] **Repository pattern** com Spring Data JPA
-- [ ] Camada **Service** para regras de negócio
-- [ ] **CRUD** completo e funcional
-- [ ] Uso de banco relacional com **PostgreSQL**
+- [X] Princípios **SOLID** aplicados
+- [X] Boas práticas de **POO**
+- [X] Uso de **DTOs** para segurança e desacoplamento
+- [X] Injeção de dependência com **Spring**
+- [X] **Repository pattern** com Spring Data JPA
+- [X] Camada **Service** para regras de negócio
+- [X] **CRUD** completo e funcional
+- [X] Uso de banco relacional com **PostgreSQL**
 
 ---
 
